@@ -8,7 +8,7 @@ const port = process.env.PORT || 5001;
 
 // ✅ FIXED CORS CONFIGURATION
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'], // Allow your frontend
+  origin: ['http://localhost:5173', 'https://import-export-hub-shahriarazad.netlify.app'], // Allow your frontend
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], // ✅ Added PATCH
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
