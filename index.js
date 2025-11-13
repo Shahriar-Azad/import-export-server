@@ -14,6 +14,8 @@ app.use(cors({
   credentials: true
 }));
 
+app.options('*', cors());
+
 app.use(express.json());
 
 const uri = process.env.MONGO_URI;
