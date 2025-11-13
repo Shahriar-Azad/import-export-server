@@ -161,7 +161,22 @@ async function run() {
       }
     });
 
+    // ==================== IMPORTS ROUTES ====================
 
+    // Get all imports by user email
+    app.get('/api/imports/:email', async (req, res) => {
+      try {
+        const email = req.params.email;
+        const query = { userId: email };
+        const result = await importsCollection
+          .find(query)
+          .sort({ importedAt: -1 })
+          .toArray();
+        res.send(result);
+      } catch (error) {
+        res.status(500).send({ message: 'Error fetching imports', error: error.message });
+      }
+    });
 
     // ==================== HEALTH CHECK ====================
     
