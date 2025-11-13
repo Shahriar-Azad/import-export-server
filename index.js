@@ -81,6 +81,21 @@ async function run() {
       }
     });
 
+    // Get products by user email (My Exports)
+    app.get('/api/products/user/:email', async (req, res) => {
+      try {
+        const email = req.params.email;
+        const query = { addedBy: email };
+        const result = await productsCollection
+          .find(query)
+          .sort({ createdAt: -1 })
+          .toArray();
+        res.send(result);
+      } catch (error) {
+        res.status(500).send({ message: 'Error fetching user products', error: error.message });
+      }
+    });
+
 
 
     // ==================== HEALTH CHECK ====================
