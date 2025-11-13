@@ -221,7 +221,5 @@ async function run() {
 
 run().catch(console.dir);
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+// Export for Vercel
+module.exports = app;
