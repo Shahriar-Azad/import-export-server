@@ -192,7 +192,17 @@ async function run() {
       }
     });
 
-
+    // Delete import
+    app.delete('/api/imports/:id', async (req, res) => {
+      try {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const result = await importsCollection.deleteOne(query);
+        res.send(result);
+      } catch (error) {
+        res.status(500).send({ message: 'Error deleting import', error: error.message });
+      }
+    });
 
     // ==================== HEALTH CHECK ====================
     
