@@ -178,6 +178,22 @@ async function run() {
       }
     });
 
+    // Add new import
+    app.post('/api/imports', async (req, res) => {
+      try {
+        const newImport = {
+          ...req.body,
+          importedAt: new Date()
+        };
+        const result = await importsCollection.insertOne(newImport);
+        res.status(201).send(result);
+      } catch (error) {
+        res.status(500).send({ message: 'Error adding import', error: error.message });
+      }
+    });
+
+
+
     // ==================== HEALTH CHECK ====================
     
     app.get('/', (req, res) => {
