@@ -129,6 +129,38 @@ async function run() {
       }
     });
 
+    // Update product quantity (used when importing)
+    app.patch('/api/products/:id/quantity', async (req, res) => {
+      try {
+        const id = req.params.id;
+        const { quantity } = req.body;
+        const filter = { _id: new ObjectId(id) };
+        
+        // Decrease the available quantity
+        const updateDoc = {
+          $inc: { availableQuantity: -quantity },
+          $set: { updatedAt: new Date() }
+        };
+        
+        const result = await productsCollection.updateOne(filter, updateDoc);
+        res.send(result);
+      } catch (error) {
+        res.status(500).send({ message: 'Error updating quantity', error: error.message });
+      }
+    });
+
+    // Delete product
+    app.delete('/api/products/:id', async (req, res) => {
+      try {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const result = await productsCollection.deleteOne(query);
+        res.send(result);
+      } catch (error) {
+        res.status(500).send({ message: 'Error deleting product', error: error.message });
+      }
+    });
+
 
 
     // ==================== HEALTH CHECK ====================
