@@ -33,9 +33,38 @@ async function run() {
     console.log("Connected to MongoDB!");
 
     const database = client.db('importExportHub');
-
+    const productsCollection = database.collection('products');
+    const importsCollection = database.collection('imports');
 
     
+    // Get all products (sorted by latest)
+    app.get('/api/products', async (req, res) => {
+      try {
+        const result = await productsCollection
+          .find()
+          .sort({ createdAt: -1 })
+          .toArray();
+        res.send(result);
+      } catch (error) {
+        res.status(500).send({ message: 'Error fetching products', error: error.message });
+      }
+    });
+
+    // Get latest 6 products for home page
+    app.get('/api/products/latest', async (req, res) => {
+      try {
+        const result = await productsCollection
+          .find()
+          .sort({ createdAt: -1 })
+          .limit(6)
+          .toArray();
+        res.send(result);
+      } catch (error) {
+        res.status(500).send({ message: 'Error fetching latest products', error: error.message });
+      }
+    });
+
+
 
     // ==================== HEALTH CHECK ====================
     
