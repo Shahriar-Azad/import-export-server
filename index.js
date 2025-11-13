@@ -96,6 +96,21 @@ async function run() {
       }
     });
 
+    // Add new product (Add Export)
+    app.post('/api/products', async (req, res) => {
+      try {
+        const newProduct = {
+          ...req.body,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+        const result = await productsCollection.insertOne(newProduct);
+        res.status(201).send(result);
+      } catch (error) {
+        res.status(500).send({ message: 'Error adding product', error: error.message });
+      }
+    });
+
 
 
     // ==================== HEALTH CHECK ====================
