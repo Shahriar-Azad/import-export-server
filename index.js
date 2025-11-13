@@ -111,6 +111,24 @@ async function run() {
       }
     });
 
+    // Update product
+    app.put('/api/products/:id', async (req, res) => {
+      try {
+        const id = req.params.id;
+        const filter = { _id: new ObjectId(id) };
+        const updateDoc = {
+          $set: {
+            ...req.body,
+            updatedAt: new Date()
+          }
+        };
+        const result = await productsCollection.updateOne(filter, updateDoc);
+        res.send(result);
+      } catch (error) {
+        res.status(500).send({ message: 'Error updating product', error: error.message });
+      }
+    });
+
 
 
     // ==================== HEALTH CHECK ====================
